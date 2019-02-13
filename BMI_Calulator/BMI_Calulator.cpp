@@ -1,21 +1,64 @@
-// BMI_Calulator.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+// BMI_Calulator.cpp : Demostrate the use of passing my refences in functions.
+//BMI = kg/m^2
 
 #include "pch.h"
 #include <iostream>
+#include <stdio.h>
+using namespace std;
+#define TARGET_BMI_VALUE 24
+
+//Function prototypes
+void Convert_cm2m(float& height);
+float BMI_Cal(float height, float weight);
+
+float BMI_Cal(float height, float weight)
+{
+	//BMI_Cal is passed by value
+	float BMI_value;
+	//cout << height<<endl; //uncomment to show original height value is modified
+	Convert_cm2m(height);//the height value referenced here is the copied version belonging to BMI_Cal
+	//cout << height; //uncomment to show original height value is modified
+
+	BMI_value = weight / (height*height);
+
+	return BMI_value;
+
+}
+
+float Get_Wt_BMI_Cal(float height, float BMI_value)
+{
+	float weight;
+
+	weight = (height/100*height/100) * BMI_value;
+	return weight;
+
+}
+
+
+void Convert_cm2m(float& height)
+{
+	height = height / 100;
+	//no need to return height value as its pass by referenced
+}
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	char ch;
+	float height, weight, BMI_value, TARGET_weight;
+    cout << "BMI Calculator!\n"; 
+	cout << "Please enter your height in cm:";
+	cin >> height;
+	cout << "\nPlease enter your weight in KG:";
+	cin >> weight;
+	
+	BMI_value = BMI_Cal(height,weight);
+	cout << "\nYour BMI is   " << BMI_value <<endl;
+	cout << "\nYour TARGET BMI is   " << TARGET_BMI_VALUE << endl;
+	TARGET_weight = Get_Wt_BMI_Cal(height, TARGET_BMI_VALUE);
+	cout << "\nYour TARGET WEIGHT is   " << TARGET_weight << endl;
+
+	getchar();//due to keyboard buffer
+	getchar();
+	return 0;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
